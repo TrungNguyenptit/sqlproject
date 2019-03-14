@@ -1,0 +1,42 @@
+body
+{
+    background-color: antiquewhite;
+    font-family: "Roboto";
+}
+
+.form-popup
+{
+    background-color: white;
+
+    width: 20%;
+    height: 320px;
+    margin: auto;
+    margin-top: 200px;
+    padding: 10px;
+
+    border-radius: 15px;
+    -webkit-box-shadow: 0 0 10px rgba(32, 31, 31, 0.705);;
+    box-shadow: 0 0 10px rgba(32, 31, 31, 0.705);
+
+    text-align: center;
+    font-size: 20px;
+}
+
+.inf
+{
+    width: 70%;
+    border: 0.2px solid rgba(66, 66, 66, 0.705);
+    padding: 3px;
+    margin: 5px;
+}
+
+.loginbutton
+{
+    width: 33%;
+    height: 30px;
+    border: none;
+    background-color: rgb(68, 185, 53);
+    margin: 15px;
+    font-size: 16px;
+    color: white;
+}
