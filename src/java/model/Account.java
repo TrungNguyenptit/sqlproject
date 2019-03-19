@@ -8,44 +8,37 @@ package model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class EmployeeAccount implements Serializable {
+/**
+ *
+ * @author Trung Nguyen
+ */
+
+public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
 
-    private String username;
-
-    private String password;
-
     private Date provisionDate;
 
     private String branch;
 
+    private String type;
+
     private float surplus;
 
-    private boolean valid;
-
-    public boolean isValid() {
-        return valid;
+    public Account() {
     }
 
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
-    public EmployeeAccount() {
-    }
-
-    public EmployeeAccount(String id) {
+    public Account(String id) {
         this.id = id;
     }
 
-    public EmployeeAccount(String id, String userName, String passWord, Date provisionDate, String branch, float surplus) {
+    public Account(String id, Date provisionDate, String branch, String type, float surplus) {
         this.id = id;
-        this.username = userName;
-        this.password = passWord;
         this.provisionDate = provisionDate;
         this.branch = branch;
+        this.type = type;
         this.surplus = surplus;
     }
 
@@ -55,22 +48,6 @@ public class EmployeeAccount implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Date getProvisionDate() {
@@ -87,6 +64,14 @@ public class EmployeeAccount implements Serializable {
 
     public void setBranch(String branch) {
         this.branch = branch;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public float getSurplus() {
@@ -107,10 +92,10 @@ public class EmployeeAccount implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EmployeeAccount)) {
+        if (!(object instanceof Account)) {
             return false;
         }
-        EmployeeAccount other = (EmployeeAccount) object;
+        Account other = (Account) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -119,7 +104,7 @@ public class EmployeeAccount implements Serializable {
 
     @Override
     public String toString() {
-        return "entities.Employeeaccount[ id=" + id + " ]";
+        return "entities.Account[ id=" + id + " ]";
     }
     
 }

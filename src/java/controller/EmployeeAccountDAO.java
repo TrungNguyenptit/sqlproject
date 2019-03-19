@@ -40,7 +40,5 @@ public class EmployeeAccountDAO {
 
     public static void main(String[] args) throws SQLException {
         EmployeeAccountDAO dao = new EmployeeAccountDAO();
-        EmployeeAccount  acc = new EmployeeAccount ("e001","employee1","123456");
-        dao.LogIn(acc);
     }
 }

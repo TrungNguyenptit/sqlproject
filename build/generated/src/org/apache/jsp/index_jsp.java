@@ -59,7 +59,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            <img src=\"images/logo.png\" alt=\"Vietcombank\" style=\"width:80%; margin-bottom: 15px\"> <br>\n");
       out.write("            <input class=\"inf\" name=\"username\" type=\"text\" placeholder=\"Tên đăng nhập\" required /> <br>\n");
       out.write("            <input type=\"password\" class=\"inf\" name=\"password\" type=\"text\" placeholder=\"Mật khẩu\" required /> <br>\n");
-      out.write("            <button class=\"loginbutton\" type=\"submit\" onclick=\"Login()\">Đăng nhập</button>\n");
+      out.write("            <button class=\"loginbutton\" type=\"submit\">Đăng nhập</button>\n");
       out.write("        </form>\n");
       out.write("    </div>\n");
       out.write("</body>\n");
