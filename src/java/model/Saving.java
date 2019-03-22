@@ -54,9 +54,9 @@ public class Saving implements Serializable {
         this.id = id;
     }
 
-    public Saving(String id, String idaccount, String idhusbandry, String idemployee, Date provisionDate, Date expirationDate, float interestTotal, float depositTotal, String term, String typeofmoney, boolean mo) {
+    public Saving(String id, String idcustomer, String idhusbandry, String idemployee, Date provisionDate, Date expirationDate, float interestTotal, float depositTotal, String term, String typeofmoney, boolean mo) {
         this.id = id;
-        this.idcustomer = idaccount;
+        this.idcustomer = idcustomer;
         this.idhusbandry = idhusbandry;
         this.idemployee = idemployee;
         this.provisionDate = provisionDate;

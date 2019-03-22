@@ -37,9 +37,5 @@ public class InterestCount {
     }
     
     public static void main(String[] args) throws ParseException, SQLException {
-        InterestCount tc = new InterestCount();
-        SavingDAO sdao = new SavingDAO();
-        ArrayList<Saving> savingList = sdao.GetSaving();
-        float f = tc.SavingInterestCount(savingList, 30, "2020-01-01");
     }
 }

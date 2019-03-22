@@ -12,6 +12,10 @@
         <servlet-name>SavingListServlet</servlet-name>
         <servlet-class>servlet.SavingListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddSavingServlet</servlet-name>
+        <servlet-class>servlet.AddSavingServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>SavingListServlet</servlet-name>
         <url-pattern>/SavingListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddSavingServlet</servlet-name>
+        <url-pattern>/AddSavingServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

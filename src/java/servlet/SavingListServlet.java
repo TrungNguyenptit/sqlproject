@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +24,7 @@ import model.Saving;
  *
  * @author ADMIN
  */
-@WebServlet(urlPatterns = { "/stk" })
+@WebServlet(urlPatterns = {"/stk"})
 public class SavingListServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -33,7 +35,7 @@ public class SavingListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SavingListServlet</title>");            
+            out.println("<title>Servlet SavingListServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet SavingListServlet at " + request.getContextPath() + "</h1>");
@@ -45,16 +47,19 @@ public class SavingListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Saving> savingList = null;
         try {
-            savingList = SavingDAO.GetSaving();
-        } catch (SQLException e) {
-            e.printStackTrace();
+            List<Saving> savingList = null;
+            String lstk = request.getParameter("loaistk");
+            String lt = request.getParameter("loaitien");
+            String tt = request.getParameter("tinhtrang");
+            savingList = SavingDAO.GetSaving(lstk, lt, tt);
+            request.setAttribute("savingList", savingList);
+            RequestDispatcher rd = request.getRequestDispatcher("main.jsp");
+            rd.forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(SavingListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-         request.setAttribute("savingList", savingList);
-        //RequestDispatcher dispatcher = request.getRequestDispatcher("main.jsp");
-        //dispatcher.forward(request, response);
-        response.sendRedirect("main.jsp"); //logged-in page      
+
     }
 
     @Override

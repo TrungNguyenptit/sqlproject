@@ -27,9 +27,12 @@
             Profile p = new Profile();
             Employee e = new Employee();
             Husbandry h = new Husbandry();
-            if (sdao.GetSaving() != null) {
-                savingList = sdao.GetSaving();
-                int stt = 0; %>
+            if (request.getAttribute("savingList") == null) {
+                savingList = sdao.GetSaving("all", "all", "all");
+            } else {
+                savingList = (ArrayList<Saving>) request.getAttribute("savingList");
+            }
+        %>
         <a href="main.jsp"> <img  src="images/logo.png" alt="Vietcombank" style="width:15%"> </a>
         <div class="menu">
             <!-- Tab -->
@@ -40,40 +43,45 @@
                 <a href="#ch"><button class="tablinks" onclick="openTab(event, 'CH')">Cấu hình</button> </a>
             </div>
             <!-- Tab content -->
-            <div id="STK" class="tabcontent" >
+            <div id="STK" class="tabcontent" <% if (request.getAttribute("savingList") != null) {%>  style="display: block" <%} %>>
                 <sql:setDataSource var="bank" driver="com.mysql.jdbc.Driver"
                                    url="jdbc:mysql://localhost:3306/bank"
                                    user="root"  password=""/>
                 <div>
-                    <span>Loại tiết kiệm: </span>
-                    <select>
-                        <option value="all">Tất cả</option>
-                        <option value="tldt">Tích lũy đầu tư</option>
-                        <option value="aud">AUD ưu đãi</option>
-                        <option value="tlcc">Tích lũy cho con</option>
-                        <option value="tgcbcnv">Tiền gửi cán bộ công nhân viên</option>
-                        <option value="tgtt">Tiền gửi trực tuyến</option>
-                        <option value="tlkh">Tích lũy kiểu hối</option>
-                        <option value="tktd">Tiết kiệm tự động</option>
-                        <option value="tklldk">Tiết kiệm lĩnh lãi định kỳ</option>
-                        <option value="tktlt">Tiết kiệm trả lãi trước</option>
-                        <option value="tkt">Tiết kiệm thường</option>
-                    </select>
-                    <span>Loại tiền: </span>
-                    <select>
-                        <option value="all">Tất cả</option>
-                        <option value="vnd">VND</option>
-                        <option value="usd">USD</option>
-                        <option value="eur">EUR</option>
-                        <option value="aud">AUD</option>
-                    </select>
+                    <button onclick="openForm('themstk')">Thêm sổ tiết kiệm </button>
+                    <button onclick="openForm('xoastk')">Xóa sổ tiết kiệm </button>
+                    <form action="SavingListServlet" method="get">
+                        <span>Loại tiết kiệm: </span>
+                        <select name="loaistk">
+                            <option value="all">Tất cả</option>
+                            <option value="hus01">Tích lũy đầu tư</option>
+                            <option value="hus06">AUD ưu đãi</option>
+                            <option value="hus010">Tích lũy cho con</option>
+                            <option value="hus011">Tiền gửi cán bộ công nhân viên</option>
+                            <option value="hus012">Tiền gửi trực tuyến</option>
+                            <option value="hus016">Tích lũy kiểu hối</option>
+                            <option value="hus017">Tiết kiệm tự động</option>
+                            <option value="hus018">Tiết kiệm lĩnh lãi định kỳ</option>
+                            <option value="hus019">Tiết kiệm trả lãi trước</option>
+                            <option value="hus020">Tiết kiệm thường</option>
+                        </select>
+                        <span>Loại tiền: </span>
+                        <select name="loaitien">
+                            <option value="all">Tất cả</option>
+                            <option value="vnd">VND</option>
+                            <option value="usd">USD</option>
+                            <option value="eur">EUR</option>
+                            <option value="aud">AUD</option>
+                        </select>
 
-                    <span>Tình trạng: </span>
-                    <select>
-                        <option value="all">Tất cả</option>
-                        <option value="open">Đang mở</option>
-                        <option value="close">Đã rút sổ</option>
-                    </select>
+                        <span>Tình trạng: </span>
+                        <select name="tinhtrang">
+                            <option value="all">Tất cả</option>
+                            <option value="open">Đang mở</option>
+                            <option value="close">Đã rút sổ</option>
+                        </select>
+                        <button type="submit"> Xác nhận </button>
+                    </form>
                 </div>
                 <table>
                     <tr>
@@ -89,6 +97,7 @@
                         <th>Tình trạng</th>
                     </tr>
                     <%
+                        int stt = 0;
                         for (Saving s : savingList) {
                             stt++;
                             c = cdao.GetCustomer(s.getIdcustomer());
@@ -97,9 +106,9 @@
                     %>
                     <tr>
                         <td><%=stt%></td>
-                        <% p = pdao.GetProfile(c.getIdprofile()); %>
+                        <% p = pdao.GetProfile(c.getIdprofile());%>
                         <td><%=p.getName()%></td>
-                        <%p = pdao.GetProfile(e.getIdProfile()); %>
+                        <%p = pdao.GetProfile(e.getIdProfile());%>
                         <td><%=p.getName()%></td>
                         <td><%=h.getName()%></td>
                         <td><%=s.getProvisionDate()%></td>
@@ -113,7 +122,6 @@
                         <td>Đóng</td>
                     </tr>
                     <% }
-                            }
                         }
                     %>
                 </table>
@@ -237,6 +245,46 @@
                     <input type="submit" value="Thay đổi">
                 </form>
             </div>
+
+            <div class="form-popup" id="themstk">
+                <form action="AddSavingServlet" method="post" class="form-container">
+                    <p id="title">Thêm sổ tiết kiệm</p>
+                    <input type="text" name="id" placeholder='ID' required> <br>
+                    <input  type="text"name="idcustomer" placeholder='IDCustomer' required> <br>
+                    <input type="text" name="idemployee" placeholder='IDEmployee' required> <br>
+                    <input type="text" name="idhusbandry" placeholder='IDHusbandry' required> <br>
+                    <label>Ngày mở sổ: </label><input type="date" name="provisionDate" placeholder='Provision Date' required> <br>
+                    <span>Kì hạn: </span>
+                    <select name="term" required>
+                        <option value="1">1 tháng</option>
+                        <option value="3">3 tháng</option>
+                        <option value="6">6 tháng</option>
+                        <option value="9">9 tháng</option>
+                         <option value="12">12 tháng</option>
+                    </select>
+                    <span>Loại tiền: </span>
+                    <select name="term" required>
+                        <option value="vnd">VND</option>
+                        <option value="usd">USD</option>
+                        <option value="eur">EUR</option>
+                        <option value="aud">AUD</option>
+                    </select>
+                    <input type="text" name="depositTotal" placeholder='Deposit Total' required> <br>
+                    <input type="text" name="interestTotal" placeholder='Interest Total' required> <br>
+                    <input type="submit" value="Xác nhận">
+                    <button class="closeform" onclick="closeForm('themstk')" type="button">X</button>
+                </form>
+            </div>
+            <div class="form-popup" id="xoastk">
+                <form action="DeleteSavingServlet" method="post" class="form-container">
+                    <p id="title">Xóa sổ tiết kiệm</p>
+                    <label> Nhập ID sổ tiết kiệm cần xóa: </label>
+                    <input name="id" placeholder='ID' required> <br>
+                    <input type="submit" value="Xác nhận">
+                    <button class="closeform" onclick="closeForm('xoastk')" type="button">X</button>
+                </form>
+            </div>
+
         </div>
 
         <script>
@@ -285,6 +333,14 @@
                     document.getElementById("tigia").disabled = false;
                 else
                     document.getElementById("tigia").disabled = true;
+            }
+            function openForm(form) {
+                document.getElementById(form).style.display = "block";
+            }
+
+            function closeForm(form) {
+                document.getElementById(form).style.display = "none";
+                ;
             }
 
         </script>

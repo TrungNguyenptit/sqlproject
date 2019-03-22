@@ -61,14 +61,21 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <body>\n");
       out.write("        ");
  SavingDAO sdao = new SavingDAO();
-           CustomerDAO cdao = new CustomerDAO();
-           ProfileDAO pdao = new ProfileDAO();
+            CustomerDAO cdao = new CustomerDAO();
+            ProfileDAO pdao = new ProfileDAO();
+            EmployeeDAO edao = new EmployeeDAO();
+            HusbandryDAO hdao = new HusbandryDAO();
             ArrayList<Saving> savingList = new ArrayList<Saving>();
             Customer c = new Customer();
             Profile p = new Profile();
-            if (sdao.GetSaving() != null) {
-                savingList = sdao.GetSaving();
-                                 int stt = 0; 
+            Employee e = new Employee();
+            Husbandry h = new Husbandry();
+            if (request.getAttribute("savingList") == null) {
+                savingList = sdao.GetSaving("all", "all", "all");
+            } else {
+                savingList = (ArrayList<Saving>) request.getAttribute("savingList");
+            }
+        
       out.write("\n");
       out.write("        <a href=\"main.jsp\"> <img  src=\"images/logo.png\" alt=\"Vietcombank\" style=\"width:15%\"> </a>\n");
       out.write("        <div class=\"menu\">\n");
@@ -80,40 +87,49 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                <a href=\"#ch\"><button class=\"tablinks\" onclick=\"openTab(event, 'CH')\">Cấu hình</button> </a>\n");
       out.write("            </div>\n");
       out.write("            <!-- Tab content -->\n");
-      out.write("            <div id=\"STK\" class=\"tabcontent\" >\n");
+      out.write("            <div id=\"STK\" class=\"tabcontent\" ");
+ if (request.getAttribute("savingList") != null) {
+      out.write("  style=\"display: block\" ");
+} 
+      out.write(">\n");
       out.write("                <sql:setDataSource var=\"bank\" driver=\"com.mysql.jdbc.Driver\"\n");
       out.write("                                   url=\"jdbc:mysql://localhost:3306/bank\"\n");
       out.write("                                   user=\"root\"  password=\"\"/>\n");
       out.write("                <div>\n");
-      out.write("                    <span>Loại tiết kiệm: </span>\n");
-      out.write("                    <select>\n");
-      out.write("                        <option value=\"all\">Tất cả</option>\n");
-      out.write("                        <option value=\"tldt\">Tích lũy đầu tư</option>\n");
-      out.write("                        <option value=\"aud\">AUD ưu đãi</option>\n");
-      out.write("                        <option value=\"tlcc\">Tích lũy cho con</option>\n");
-      out.write("                        <option value=\"tgcbcnv\">Tiền gửi cán bộ công nhân viên</option>\n");
-      out.write("                        <option value=\"tgtt\">Tiền gửi trực tuyến</option>\n");
-      out.write("                        <option value=\"tlkh\">Tích lũy kiểu hối</option>\n");
-      out.write("                        <option value=\"tktd\">Tiết kiệm tự động</option>\n");
-      out.write("                        <option value=\"tklldk\">Tiết kiệm lĩnh lãi định kỳ</option>\n");
-      out.write("                        <option value=\"tktlt\">Tiết kiệm trả lãi trước</option>\n");
-      out.write("                        <option value=\"tkt\">Tiết kiệm thường</option>\n");
-      out.write("                    </select>\n");
-      out.write("                    <span>Loại tiền: </span>\n");
-      out.write("                    <select>\n");
-      out.write("                        <option value=\"all\">Tất cả</option>\n");
-      out.write("                        <option value=\"vnd\">VND</option>\n");
-      out.write("                        <option value=\"usd\">USD</option>\n");
-      out.write("                        <option value=\"eur\">EUR</option>\n");
-      out.write("                        <option value=\"aud\">AUD</option>\n");
-      out.write("                    </select>\n");
+      out.write("                    <button onclick=\"openForm('themstk')\">Thêm sổ tiết kiệm </button>\n");
+      out.write("                    <button onclick=\"openForm('xoastk')\">Xóa sổ tiết kiệm </button>\n");
+      out.write("                    <form action=\"SavingListServlet\" method=\"get\">\n");
+      out.write("                        <span>Loại tiết kiệm: </span>\n");
+      out.write("                        <select name=\"loaistk\">\n");
+      out.write("                            <option value=\"all\">Tất cả</option>\n");
+      out.write("                            <option value=\"hus01\">Tích lũy đầu tư</option>\n");
+      out.write("                            <option value=\"hus06\">AUD ưu đãi</option>\n");
+      out.write("                            <option value=\"hus010\">Tích lũy cho con</option>\n");
+      out.write("                            <option value=\"hus011\">Tiền gửi cán bộ công nhân viên</option>\n");
+      out.write("                            <option value=\"hus012\">Tiền gửi trực tuyến</option>\n");
+      out.write("                            <option value=\"hus016\">Tích lũy kiểu hối</option>\n");
+      out.write("                            <option value=\"hus017\">Tiết kiệm tự động</option>\n");
+      out.write("                            <option value=\"hus018\">Tiết kiệm lĩnh lãi định kỳ</option>\n");
+      out.write("                            <option value=\"hus019\">Tiết kiệm trả lãi trước</option>\n");
+      out.write("                            <option value=\"hus020\">Tiết kiệm thường</option>\n");
+      out.write("                        </select>\n");
+      out.write("                        <span>Loại tiền: </span>\n");
+      out.write("                        <select name=\"loaitien\">\n");
+      out.write("                            <option value=\"all\">Tất cả</option>\n");
+      out.write("                            <option value=\"vnd\">VND</option>\n");
+      out.write("                            <option value=\"usd\">USD</option>\n");
+      out.write("                            <option value=\"eur\">EUR</option>\n");
+      out.write("                            <option value=\"aud\">AUD</option>\n");
+      out.write("                        </select>\n");
       out.write("\n");
-      out.write("                    <span>Tình trạng: </span>\n");
-      out.write("                    <select>\n");
-      out.write("                        <option value=\"all\">Tất cả</option>\n");
-      out.write("                        <option value=\"open\">Đang mở</option>\n");
-      out.write("                        <option value=\"close\">Đã rút sổ</option>\n");
-      out.write("                    </select>\n");
+      out.write("                        <span>Tình trạng: </span>\n");
+      out.write("                        <select name=\"tinhtrang\">\n");
+      out.write("                            <option value=\"all\">Tất cả</option>\n");
+      out.write("                            <option value=\"open\">Đang mở</option>\n");
+      out.write("                            <option value=\"close\">Đã rút sổ</option>\n");
+      out.write("                        </select>\n");
+      out.write("                        <button type=\"submit\"> Xác nhận </button>\n");
+      out.write("                    </form>\n");
       out.write("                </div>\n");
       out.write("                <table>\n");
       out.write("                    <tr>\n");
@@ -130,8 +146,12 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    </tr>\n");
       out.write("                    ");
 
+                        int stt = 0;
                         for (Saving s : savingList) {
                             stt++;
+                            c = cdao.GetCustomer(s.getIdcustomer());
+                            e = edao.GetEmployee(s.getIdemployee());
+                            h = hdao.GetHusbandry(s.getIdhusbandry());
                     
       out.write("\n");
       out.write("                    <tr>\n");
@@ -139,17 +159,19 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.print(stt);
       out.write("</td>\n");
       out.write("                        ");
- c = cdao.GetCustomer(s.getIdcustomer());
-                            p= pdao.GetProfile(c.getIdprofile()); 
+ p = pdao.GetProfile(c.getIdprofile());
+      out.write("\n");
+      out.write("                        <td>");
+      out.print(p.getName());
+      out.write("</td>\n");
+      out.write("                        ");
+p = pdao.GetProfile(e.getIdProfile());
       out.write("\n");
       out.write("                        <td>");
       out.print(p.getName());
       out.write("</td>\n");
       out.write("                        <td>");
-      out.print(s.getIdemployeeaccount());
-      out.write("</td>\n");
-      out.write("                        <td>");
-      out.print(s.getIdhusbandry());
+      out.print(h.getName());
       out.write("</td>\n");
       out.write("                        <td>");
       out.print(s.getProvisionDate());
@@ -169,15 +191,14 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        ");
  if (s.isMo()) {
       out.write("\n");
-      out.write("                        <td>YES</td>\n");
+      out.write("                        <td>Mở</td>\n");
       out.write("                        ");
 } else {
       out.write("\n");
-      out.write("                        <td>NO</td>\n");
+      out.write("                        <td>Đóng</td>\n");
       out.write("                    </tr>\n");
       out.write("                    ");
  }
-                            }
                         }
                     
       out.write("\n");
@@ -302,6 +323,46 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    <input type=\"submit\" value=\"Thay đổi\">\n");
       out.write("                </form>\n");
       out.write("            </div>\n");
+      out.write("\n");
+      out.write("            <div class=\"form-popup\" id=\"themstk\">\n");
+      out.write("                <form action=\"AddSavingServlet\" method=\"post\" class=\"form-container\">\n");
+      out.write("                    <p id=\"title\">Thêm sổ tiết kiệm</p>\n");
+      out.write("                    <input name=\"id\" placeholder='ID' required> <br>\n");
+      out.write("                    <input name=\"idcustomer\" placeholder='IDCustomer' required> <br>\n");
+      out.write("                    <input name=\"idemployee\" placeholder='IDEmployee' required> <br>\n");
+      out.write("                    <input name=\"idhusbandry\" placeholder='IDHusbandry' required> <br>\n");
+      out.write("                    <label>Ngày mở sổ: </label><input type=\"date\" name=\"provisionDate\" placeholder='Provision Date' required> <br>\n");
+      out.write("                    <span>Kì hạn: </span>\n");
+      out.write("                    <select name=\"term\" required>\n");
+      out.write("                        <option value=\"1\">1 tháng</option>\n");
+      out.write("                        <option value=\"3\">3 tháng</option>\n");
+      out.write("                        <option value=\"6\">6 tháng</option>\n");
+      out.write("                        <option value=\"9\">9 tháng</option>\n");
+      out.write("                         <option value=\"12\">12 tháng</option>\n");
+      out.write("                    </select>\n");
+      out.write("                    <span>Loại tiền: </span>\n");
+      out.write("                    <select name=\"term\" required>\n");
+      out.write("                        <option value=\"vnd\">VND</option>\n");
+      out.write("                        <option value=\"usd\">USD</option>\n");
+      out.write("                        <option value=\"eur\">EUR</option>\n");
+      out.write("                        <option value=\"aud\">AUD</option>\n");
+      out.write("                    </select>\n");
+      out.write("                    <input name=\"depositTotal\" placeholder='Deposit Total' required> <br>\n");
+      out.write("                    <input name=\"interestTotal\" placeholder='Interest Total' required> <br>\n");
+      out.write("                    <input type=\"submit\" value=\"Xác nhận\">\n");
+      out.write("                    <button class=\"closeform\" onclick=\"closeForm('themstk')\" type=\"button\">X</button>\n");
+      out.write("                </form>\n");
+      out.write("            </div>\n");
+      out.write("            <div class=\"form-popup\" id=\"xoastk\">\n");
+      out.write("                <form action=\"DeleteSavingServlet\" method=\"post\" class=\"form-container\">\n");
+      out.write("                    <p id=\"title\">Xóa sổ tiết kiệm</p>\n");
+      out.write("                    <label> Nhập ID sổ tiết kiệm cần xóa: </label>\n");
+      out.write("                    <input name=\"id\" placeholder='ID' required> <br>\n");
+      out.write("                    <input type=\"submit\" value=\"Xác nhận\">\n");
+      out.write("                    <button class=\"closeform\" onclick=\"closeForm('xoastk')\" type=\"button\">X</button>\n");
+      out.write("                </form>\n");
+      out.write("            </div>\n");
+      out.write("\n");
       out.write("        </div>\n");
       out.write("\n");
       out.write("        <script>\n");
@@ -350,6 +411,14 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    document.getElementById(\"tigia\").disabled = false;\n");
       out.write("                else\n");
       out.write("                    document.getElementById(\"tigia\").disabled = true;\n");
+      out.write("            }\n");
+      out.write("            function openForm(form) {\n");
+      out.write("                document.getElementById(form).style.display = \"block\";\n");
+      out.write("            }\n");
+      out.write("\n");
+      out.write("            function closeForm(form) {\n");
+      out.write("                document.getElementById(form).style.display = \"none\";\n");
+      out.write("                ;\n");
       out.write("            }\n");
       out.write("\n");
       out.write("        </script>\n");

@@ -51,14 +51,11 @@ public class ReportServlet extends HttpServlet {
             }
             InterestCount tc = new InterestCount();
             SavingDAO sdao = new SavingDAO();
-            ArrayList<Saving> savingList = sdao.GetSaving();
+            ArrayList<Saving> savingList = sdao.GetSaving("all","all","all");
             float totalMoney = tc.SavingInterestCount(savingList, term, sdf.format(fDate) );
             BigDecimal bdTotalMoney = new BigDecimal(totalMoney);
             response.getOutputStream().println("<script> alert(\""+bdTotalMoney+" VND\"); window.location = 'index.jsp';</script>");
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
+        } catch (ParseException | SQLException ex) {
             Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
