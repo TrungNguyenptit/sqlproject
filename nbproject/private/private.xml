@@ -13,12 +13,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/web/main.jsp</file>
-            <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/nbproject/build-impl.xml</file>
-            <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/src/java/controller/ConnectionManager.java</file>
+            <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/src/java/controller/ProfileDAO.java</file>
             <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/test/controller/SavingDAOTest.java</file>
-            <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/src/java/controller/SavingDAO.java</file>
             <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/test/controller/ProfileDAOTest.java</file>
-            <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/src/java/model/Saving.java</file>
+            <file>file:/D:/HK8/SQA/Teamjob/Code/Bank/Bank/src/java/model/Profile.java</file>
         </group>
     </open-files>
 </project-private>
