@@ -196,26 +196,35 @@
             </div>
 
             <div id="CH" class="tabcontent">
-                <form action="" class=" DTG">
+                <form action="ConfigurationServlet" class=" DTG" method="post">
                     <span>Chọn loại: </span>
-                    <select id="mainselect" onchange="showDiv1(this)">
+                    <select id="mainselect" name="type" onchange="showDiv1(this)">
                         <option selected value="">---</option>
                         <option value="CLSTK">Sổ tiết kiệm</option>
                         <option value="CLVL">Vay lãi</option>
                     </select>
                     <div class="basichide" id="CLSTK"><span>Loại sổ tiết kiệm: </span>
-                        <select class=" stk" onchange="showDiv2(this)">
+                        <select class=" stk" name="typestk" onchange="showDiv2(this)">
                             <option selected value="">---</option>
-                            <option value="tldt">Tích lũy đầu tư</option>
-                            <option value="aud">AUD ưu đãi</option>
-                            <option value="tlcc">Tích lũy cho con</option>
-                            <option value="tgcbcnv">Tiền gửi cán bộ công nhân viên</option>
-                            <option value="tgtt">Tiền gửi trực tuyến</option>
-                            <option value="tlkh">Tích lũy kiểu hối</option>
-                            <option value="tktd">Tiết kiệm tự động</option>
-                            <option value="tklldk">Tiết kiệm lĩnh lãi định kỳ</option>
-                            <option value="tktlt">Tiết kiệm trả lãi trước</option>
-                            <option value="tkt">Tiết kiệm thường</option>
+                            <option value="inter01">Tích lũy cho con - mở tài khoản</option>
+                            <option value="inter02">Tích lũy cho con - sau 3 tháng</option>
+                            <option value="inter03">Tích lũy cho con - sau 6 tháng</option>
+                            <option value="inter04">Tích lũy cho con - 9 tháng</option>
+                            <option value="inter05">Tích lũy cho con rút trước hạn</option>
+                            <option value="inter07">Tích lũy kiều hối</option>
+                            <option value="inter08">Lĩnh lãi định kỳ - VND</option>
+                            <option value="inter09">Lĩnh lãi định kỳ - USD</option>
+                            <option value="inter10">Trần lãi xuất không kỳ hạn</option>
+                            <option value="inter11">Trần lãi xuất 7 ngày</option>
+                            <option value="inter12">Trần lãi xuất 14 ngày</option>
+                            <option value="inter13">Trần lãi xuất 1 tháng</option>
+                            <option value="inter15">Trần lãi xuất 3 tháng</option>
+                            <option value="inter16">Trần lãi xuất 6 tháng</option>
+                            <option value="inter17">Trần lãi xuất 9 tháng</option>
+                            <option value="inter18">Trần lãi xuất 12 tháng</option>
+                            <option value="inter19">Trần lãi xuất 24 tháng</option>
+                            <option value="inter21">Trần lãi xuất 48 tháng</option>
+                            <option value="inter22">Trần lãi xuất 60 tháng</option>
                         </select></div>
                     <div class="basichide " id="CLVL"><span>Loại vay lãi: </span>
                         <select class=" vl" onchange="showDiv2(this)">
@@ -233,7 +242,7 @@
                         </select></div>
                     <div class="basichide" id="CLT">
                         <span>Loại tiền: </span>
-                        <select onchange="enabletype(this)">
+                        <select onchange="enabletype(this)" name="typeofmoney">
                             <option value="">---</option>
                             <option value="vnd">VND</option>
                             <option value="usd">USD</option>

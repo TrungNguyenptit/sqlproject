@@ -30,7 +30,7 @@ String username = "root";
 String password = "";
 try
 {            	
-con = DriverManager.getConnection(url, username, password); 
+con = DriverManager.getConnection(url, username, password);
     System.out.println("Connected!");
 // assuming your SQL Server's	username is "username"               
 // and password is "password"

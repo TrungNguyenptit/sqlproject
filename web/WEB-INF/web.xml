@@ -16,6 +16,10 @@
         <servlet-name>AddSavingServlet</servlet-name>
         <servlet-class>servlet.AddSavingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ConfigurationServlet</servlet-name>
+        <servlet-class>servlet.ConfigurationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>AddSavingServlet</servlet-name>
         <url-pattern>/AddSavingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfigurationServlet</servlet-name>
+        <url-pattern>/ConfigurationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
