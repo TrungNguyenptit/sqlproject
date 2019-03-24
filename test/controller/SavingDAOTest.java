@@ -52,12 +52,12 @@ public class SavingDAOTest {
      * Test of GetSaving method, of class SavingDAO.
      */
     @Test
-    public void testGetSaving() throws Exception {
+    public void testGetSaving1() throws Exception {
         System.out.println("GetSaving");
         String loaistk = "";
         String loaitien = "";
         String tinhtrang = "";
-        ArrayList<Saving> expResult = null;
+        ArrayList<Saving> expResult = new ArrayList<>();
         ArrayList<Saving> result = SavingDAO.GetSaving(loaistk, loaitien, tinhtrang);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
@@ -69,10 +69,6 @@ public class SavingDAOTest {
     @Test
     public void testAddSaving() throws Exception {
         try {
-            // Initial cleanup
-            //String sql = "DELETE FROM saving";
-            // PreparedStatement ps = con.prepareCall(sql);
-            //ps.executeUpdate();
             //Setting input parameters:
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String id = "sav303";
@@ -100,7 +96,7 @@ public class SavingDAOTest {
             // Database Checks:
             // Check the Person table contains one row with the expected values:
             Statement stCheck = con.createStatement();
-            try (ResultSet rs = stCheck.executeQuery("SELECT * FROM saving WHERE id='" + id + "'")) {
+            try (ResultSet rs = stCheck.executeQuery("SELECT * FROM profile WHERE id='" + id + "'")) {
                 rs.next();
                 assertEquals(id, rs.getString("id"));
                 assertEquals(idcustomer, rs.getString("idcustomer"));

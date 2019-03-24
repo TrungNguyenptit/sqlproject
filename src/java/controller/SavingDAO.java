@@ -25,7 +25,7 @@ public class SavingDAO {
     static ResultSet rs = null;
 
     public static ArrayList<Saving> GetSaving(String loaistk, String loaitien, String tinhtrang) throws SQLException {
-        ArrayList<Saving> savingList = null;
+        ArrayList<Saving> savingList = new ArrayList<>();
         try {
             String sql = "SELECT * FROM saving";
             boolean where = false;
@@ -78,7 +78,6 @@ public class SavingDAO {
                 savingList.add(s);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
         }
         return savingList;
     }
