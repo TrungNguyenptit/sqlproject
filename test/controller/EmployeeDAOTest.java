@@ -5,6 +5,11 @@
  */
 package controller;
 
+import static controller.ProfileDAOTest.con;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import model.Customer;
 import model.Employee;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,25 +48,32 @@ public class EmployeeDAOTest {
      */
     @Test
     public void testGetEmployee() throws Exception {
-        System.out.println("GetEmployee");
-        String id = "";
-        Employee expResult = null;
+        String id = "em05";
+        String idProfile = "pro022";
+        String idemployeeAccount = "ema05";
+        String role = "nv";
+        Employee expResult = new Employee(id, idProfile, idemployeeAccount, role);
         Employee result = EmployeeDAO.GetEmployee(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of main method, of class EmployeeDAO.
-     */
-    @Test
-    public void testMain() throws Exception {
-        System.out.println("main");
-        String[] args = null;
-        EmployeeDAO.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // Javabean Checks: Check the javabean contains the expected values:
+        assertEquals(expResult.getId(), result.getId());
+        assertEquals(expResult.getIdProfile(), result.getIdProfile());
+        assertEquals(expResult.getIdemployeeAccount(), result.getIdemployeeAccount());
+        assertEquals(expResult.getDuty(), result.getDuty());
+
+        // Check the Person table contains one row with the expected values:
+        Statement stCheck = con.createStatement();
+        try (ResultSet rs = stCheck.executeQuery("SELECT * FROM employee WHERE id='" + id + "'")) {
+            while(rs.next())
+            {
+            assertEquals(id, rs.getString("id"));
+            assertEquals(idProfile, rs.getString("idProfile"));
+            assertEquals(idemployeeAccount, rs.getString("idemployeeAccount"));
+            assertEquals(role, rs.getString("role"));
+            }
+            assertFalse(rs.next());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    
 }

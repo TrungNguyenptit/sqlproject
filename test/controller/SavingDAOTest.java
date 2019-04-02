@@ -69,9 +69,10 @@ public class SavingDAOTest {
     @Test
     public void testAddSaving() throws Exception {
         try {
+            con.setAutoCommit(false);
             //Setting input parameters:
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String id = "sav303";
+            String id = "sav30";
             String idcustomer = "cus04";
             String idhusbandry = "hus014";
             String idemployee = "em02";
@@ -92,33 +93,35 @@ public class SavingDAOTest {
 //
             // Javabean Checks: Check the javabean contains the expected values:
             assertEquals(scheck, s);
-            
+
             // Database Checks:
             // Check the Person table contains one row with the expected values:
-            Statement stCheck = con.createStatement();
-            try (ResultSet rs = stCheck.executeQuery("SELECT * FROM profile WHERE id='" + id + "'")) {
-                rs.next();
+            String sql = "SELECT * FROM profile WHERE id='" + id + "'";
+            PreparedStatement ps = con.prepareCall(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 assertEquals(id, rs.getString("id"));
                 assertEquals(idcustomer, rs.getString("idcustomer"));
                 assertEquals(idemployee, rs.getString("idemployee"));
                 assertEquals(idhusbandry, rs.getString("idhusbandry"));
                 assertEquals(provisionDate, rs.getDate("provisionDate"));
                 assertEquals(expirationDate, rs.getDate("expirationDate"));
-                assertEquals(interestTotal, rs.getFloat("interestTotal"),0.0001);
-                assertEquals(depositTotal, rs.getFloat("depositTotal"),0.0001);
+                assertEquals(interestTotal, rs.getFloat("interestTotal"), 0.0001);
+                assertEquals(depositTotal, rs.getFloat("depositTotal"), 0.0001);
                 assertEquals(term, rs.getString("term"));
                 assertEquals(typeofmoney, rs.getString("typeofmoney"));
                 assertEquals(idemployee, rs.getString("idemployee"));
                 assertFalse(rs.next());
             }
-            
             //Delete the test data
-            String sql = "DELETE FROM saving WHERE id='"+id+"'";
-            PreparedStatement ps = con.prepareCall(sql);
-            ps.executeUpdate();
-            
+//            String sql = "DELETE FROM saving WHERE id='"+id+"'";
+//            PreparedStatement ps = con.prepareCall(sql);
+//            ps.executeUpdate();
         } catch (SQLException e) {
+
             e.printStackTrace();
+        } finally {
+            con.rollback();
         }
     }
 

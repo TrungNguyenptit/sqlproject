@@ -5,6 +5,11 @@
  */
 package controller;
 
+import static controller.ProfileDAOTest.con;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import model.Employee;
 import model.Husbandry;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,25 +48,48 @@ public class HusbandryDAOTest {
      */
     @Test
     public void testGetHusbandry() throws Exception {
-        System.out.println("GetHusbandry");
-        String id = "";
-        Husbandry expResult = null;
+        String id = "hus010";
+        String name = "Tich luy cho con";
+        String term = "12 thang";
+        float minimumamountdespositcycle = 3000000;
+        String typeofmoney = "vnd";
+        String despositCycle = "3 thang/lan";
+        String interestPaymentCycle = "cuoi ky";
+        String sourcesofinterestPayment = "";
+        String note = "";
+        Husbandry expResult = new Husbandry(id, name, term, minimumamountdespositcycle, typeofmoney, despositCycle, interestPaymentCycle, sourcesofinterestPayment, note);
         Husbandry result = HusbandryDAO.GetHusbandry(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        // Javabean Checks: Check the javabean contains the expected values:
+        assertEquals(expResult.getId(), result.getId());
+        assertEquals(expResult.getName(), result.getName());
+        assertEquals(expResult.getTerm(), result.getTerm());
+        assertEquals(expResult.getMinimumamountdespositcycle(), result.getMinimumamountdespositcycle(),0);
+        assertEquals(expResult.getTypeofmoney(), result.getTypeofmoney());
+        assertEquals(expResult.getDespositCycle(), result.getDespositCycle());
+        assertEquals(expResult.getInterestPaymentCycle(), result.getInterestPaymentCycle());
+        assertEquals(expResult.getSourcesofinterestPayment(), result.getSourcesofinterestPayment());
+        assertEquals(expResult.getNote(), result.getNote());
+
+        // Check the Person table contains one row with the expected values:
+        Statement stCheck = con.createStatement();
+        try (ResultSet rs = stCheck.executeQuery("SELECT * FROM husbandry WHERE id='" + id + "'")) {
+            while(rs.next())
+            {
+            assertEquals(id, rs.getString("id"));
+            assertEquals(name, rs.getString("name"));
+            assertEquals(term, rs.getString("term"));
+            assertEquals(minimumamountdespositcycle, rs.getFloat("minimumamountdespositcycle"),0);
+            assertEquals(typeofmoney, rs.getString("typeofmoney"));
+            assertEquals(despositCycle, rs.getString("despositCycle"));
+            assertEquals(interestPaymentCycle, rs.getString("interestPaymentCycle"));
+            assertEquals(sourcesofinterestPayment, rs.getString("sourcesofinterestPayment"));
+            assertEquals(note, rs.getString("note"));
+            }
+            assertFalse(rs.next());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    /**
-     * Test of main method, of class HusbandryDAO.
-     */
-    @Test
-    public void testMain() throws Exception {
-        System.out.println("main");
-        String[] args = null;
-        HusbandryDAO.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

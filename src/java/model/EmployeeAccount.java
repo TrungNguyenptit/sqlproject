@@ -40,6 +40,11 @@ public class EmployeeAccount implements Serializable {
         this.id = id;
     }
 
+    public EmployeeAccount(String userName,String password)
+    {
+        this.username = userName;
+        this.password = password;
+    }
     public EmployeeAccount(String id, String userName, String passWord, Date provisionDate, String branch, float surplus) {
         this.id = id;
         this.username = userName;

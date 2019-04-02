@@ -34,6 +34,7 @@ public class EmployeeDAO {
         e.setDuty(rs.getString("role"));
         e.setIdProfile(rs.getString("idprofile"));
         }
+            //    con.close();
         return e;
     }
 

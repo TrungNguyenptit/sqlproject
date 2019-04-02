@@ -6,6 +6,7 @@
 package servlet;
 
 import controller.InterestCount;
+import controller.LoanDAO;
 import controller.SavingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Loan;
 import model.Saving;
 
 /**
@@ -33,7 +35,7 @@ public class ReportServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int term=0;
+            int term = 0;
             Date fDate = new Date();
             if (request.getParameter("term").equalsIgnoreCase("thang")) {
                 term = 30;
@@ -50,11 +52,15 @@ public class ReportServlet extends HttpServlet {
                 Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             InterestCount tc = new InterestCount();
-            SavingDAO sdao = new SavingDAO();
-            ArrayList<Saving> savingList = sdao.GetSaving("all","all","all");
-            float totalMoney = tc.SavingInterestCount(savingList, term, sdf.format(fDate) );
-            BigDecimal bdTotalMoney = new BigDecimal(totalMoney);
-            response.getOutputStream().println("<script> alert(\""+bdTotalMoney+" VND\"); window.location = 'index.jsp';</script>");
+            ArrayList<Saving> savingList = SavingDAO.GetSaving("all", "all", "all");
+            ArrayList<Loan> loanList = LoanDAO.GetLoan("all", "all");
+            float totalsavingMoney = tc.SavingInterestCount(savingList, term, sdf.format(fDate));
+            float totalloanMoney = tc.LoanInterestCount(loanList, term, sdf.format(fDate));
+            BigDecimal bdTotalloanMoney = new BigDecimal(totalloanMoney);
+            BigDecimal bdTotalsavingMoney = new BigDecimal(totalsavingMoney);
+            BigDecimal bdTotalMoney =bdTotalloanMoney.add(bdTotalloanMoney);
+            bdTotalMoney.subtract(bdTotalsavingMoney);
+            response.getOutputStream().println("<script> alert(\"" + bdTotalsavingMoney + " VND\"); window.location = 'main.jsp';</script>");
         } catch (ParseException | SQLException ex) {
             Logger.getLogger(ReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

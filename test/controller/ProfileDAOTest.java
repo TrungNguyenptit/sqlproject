@@ -68,7 +68,7 @@ public class ProfileDAOTest {
         assertEquals(expResult.getTel(), result.getTel());
         assertEquals(expResult.getName(), result.getName());
 
-        // Check the Person table contains one row with the expected values:
+        // Check the Profile table contains one row with the expected values:
         Statement stCheck = con.createStatement();
         try (ResultSet rs = stCheck.executeQuery("SELECT * FROM profile WHERE id='" + id + "'")) {
             while(rs.next())

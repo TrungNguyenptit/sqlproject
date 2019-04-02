@@ -20,6 +20,10 @@
         <servlet-name>ConfigurationServlet</servlet-name>
         <servlet-class>servlet.ConfigurationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoanListServlet</servlet-name>
+        <servlet-class>servlet.LoanListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>ConfigurationServlet</servlet-name>
         <url-pattern>/ConfigurationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoanListServlet</servlet-name>
+        <url-pattern>/LoanListServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

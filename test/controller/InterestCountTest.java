@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import model.Saving;
 import org.junit.After;
@@ -19,22 +20,22 @@ import static org.junit.Assert.*;
  * @author ADMIN
  */
 public class InterestCountTest {
-    
+
     public InterestCountTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -43,29 +44,46 @@ public class InterestCountTest {
      * Test of SavingInterestCount method, of class InterestCount.
      */
     @Test
-    public void testSavingInterestCount() throws Exception {
+    public void testSavingInterestCount1() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         System.out.println("SavingInterestCount");
-        ArrayList<Saving> savingList = null;
-        int term = 0;
-        String finishDate = "";
+        ArrayList<Saving> savingList = new ArrayList<>();
+        Saving s1 = new Saving("sav321", "cus22", "hus12", "em03", sdf.parse("2018-02-10"), sdf.parse("2019-02-10"), 500000000f, 3000000000f, "12 thang", "vnd", false);
+        savingList.add(s1);
+        int term = 3;
+        String finishDate = "2019-03-15";
         InterestCount instance = new InterestCount();
-        float expResult = 0.0F;
+        float expResult = 500000000F;
         float result = instance.SavingInterestCount(savingList, term, finishDate);
         assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
-    /**
-     * Test of main method, of class InterestCount.
-     */
     @Test
-    public void testMain() throws Exception {
-        System.out.println("main");
-        String[] args = null;
-        InterestCount.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSavingInterestCount2() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<Saving> savingList = new ArrayList<>();
+        Saving s1 = new Saving("sav321", "cus22", "hus12", "em03", sdf.parse("2018-02-10"), sdf.parse("2019-02-10"), 500000000f, 3000000000f, "12 thang", "vnd", true);
+        savingList.add(s1);
+        int term = 3;
+        String finishDate = "2019-03-15";
+        InterestCount instance = new InterestCount();
+        float expResult = 0F;
+        float result = instance.SavingInterestCount(savingList, term, finishDate);
+        assertEquals(expResult, result, 0.0);
     }
-    
+
+    @Test
+    public void testSavingInterestCount3() throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<Saving> savingList = new ArrayList<>();
+        Saving s1 = new Saving("sav321", "cus22", "hus12", "em03", sdf.parse("2018-02-10"), sdf.parse("2019-02-10"), 500000000f, 3000000000f, "12 thang", "vnd", false);
+        savingList.add(s1);
+        int term = 3;
+        String finishDate = "2019-01-15";
+        InterestCount instance = new InterestCount();
+        float expResult = 0F;
+        float result = instance.SavingInterestCount(savingList, term, finishDate);
+        assertEquals(expResult, result, 0.0);
+    }
+
 }

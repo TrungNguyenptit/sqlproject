@@ -28,11 +28,12 @@ public class CustomerDAO {
         rs = ps.executeQuery();
         Customer cus = new Customer();
         while(rs.next())  {
-        cus.setAccountid(rs.getString("idaccount"));
+        cus.setIdaccount(rs.getString("idaccount"));
         cus.setId(rs.getString("id"));
         cus.setIdprofile(rs.getString("idprofile"));
         cus.setJob(rs.getString("job"));
         cus.setPassportNo(rs.getString("passportNo")); }
+             //   con.close();
         return cus;
     }
 

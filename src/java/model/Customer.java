@@ -20,16 +20,6 @@ public class Customer implements Serializable {
 
     private String job;
     
-    private String accountid;
-
-    public String getAccountid() {
-        return accountid;
-    }
-
-    public void setAccountid(String accountid) {
-        this.accountid = accountid;
-    }
-
     private String passportNo;
 
     private String idprofile;
@@ -43,13 +33,12 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public Customer(String id,String accountid, String job, String passportNo, String idprofile, String idaccount) {
+    public Customer(String id, String job, String passportNo, String idprofile, String idaccount) {
         this.id = id;
         this.job = job;
         this.passportNo = passportNo;
         this.idprofile = idprofile;
         this.idaccount = idaccount;
-        this.accountid = accountid;
     }
 
     public String getId() {

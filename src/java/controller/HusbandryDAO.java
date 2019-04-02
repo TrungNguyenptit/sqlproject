@@ -34,7 +34,9 @@ public class HusbandryDAO {
         h.setName(rs.getString("name"));
         h.setTerm(rs.getString("term"));
         h.setTypeofmoney(rs.getString("typeofmoney"));
+        h.setNote(rs.getString("note"));
         }
+          //      con.close();
         return h;
     }
 

@@ -32,6 +32,7 @@ public class ProfileDAO {
         p.setName(rs.getString("name"));
         p.setTel(rs.getString("tel"));
         }
+         //       con.close();
         return p;
     }
 

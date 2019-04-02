@@ -79,6 +79,7 @@ public class SavingDAO {
             }
         } catch (SQLException e) {
         }
+              //  con.close();
         return savingList;
     }
 
@@ -94,14 +95,13 @@ public class SavingDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    //    con.close();
         return s;
     }
 
     public static void main(String[] args) throws SQLException, ParseException {
-        String sql = "DELETE FROM saving WHERE id='sav301'";
-            PreparedStatement ps = con.prepareCall(sql);
-            ps.executeUpdate();
-
+         ArrayList<Saving> s = new ArrayList<>();
+        s = SavingDAO.GetSaving("all", "all","all");
+        System.out.print(s.get(0).getIdcustomer());
     }
 }

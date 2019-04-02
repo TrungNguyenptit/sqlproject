@@ -5,6 +5,10 @@
  */
 package controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,36 +21,27 @@ import static org.junit.Assert.*;
  * @author ADMIN
  */
 public class ConfigurationDAOTest {
-    
+
+    static Connection con = ConnectionManager.getConnection();
+    static ResultSet rs = null;
+
     public ConfigurationDAOTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
-    }
-
-    /**
-     * Test of main method, of class ConfigurationDAO.
-     */
-    @org.junit.Test
-    public void testMain() throws Exception {
-        System.out.println("main");
-        String[] args = null;
-        ConfigurationDAO.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -54,13 +49,57 @@ public class ConfigurationDAOTest {
      */
     @org.junit.Test
     public void testSetInterestrate() throws Exception {
-        System.out.println("SetInterestrate");
-        String id = "";
-        String typeOfMoney = "";
-        float interestrate = 0.0F;
-        ConfigurationDAO.SetInterestrate(id, typeOfMoney, interestrate);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            con.setAutoCommit(false);
+            String id = "inter08";
+            String typeOfMoney = "vnd";
+            float interestrate = 0.4F;
+            float expResult = interestrate;
+            float result = ConfigurationDAO.SetInterestrate(id, typeOfMoney, interestrate);
+
+            // Javabean Checks: Check the javabean contains the expected values:
+            assertEquals(expResult, result, 0);
+
+            // Check the InterestRate table updated one row with the expected values:
+            String sql = "SELECT * FROM interestrate WHERE id='" + id + "'";
+            PreparedStatement ps = con.prepareCall(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                assertEquals(expResult, rs.getFloat("vndinterestrate"), 0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            con.rollback();
+        }
     }
-    
+
+    @org.junit.Test
+    public void testSetInterestrate2() throws Exception {
+        try {
+            con.setAutoCommit(false);
+            String id = "inter08";
+            String typeOfMoney = "vnd";
+            float interestrate = -0.4F;
+            float expResult = interestrate;
+            float result = ConfigurationDAO.SetInterestrate(id, typeOfMoney, interestrate);
+
+            // Javabean Checks: Check the javabean contains the expected values:
+            assertEquals(expResult, result, 0);
+
+            // Check the InterestRate table NOT updated one row with the expected values:
+            String sql = "SELECT * FROM interestrate WHERE id='" + id + "'";
+            PreparedStatement ps = con.prepareCall(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                assertNotEquals(expResult, rs.getFloat("vndinterestrate"), 0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            con.rollback();
+        }
+
+    }
+
 }

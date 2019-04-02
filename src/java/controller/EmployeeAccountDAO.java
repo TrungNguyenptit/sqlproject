@@ -35,10 +35,11 @@ public class EmployeeAccountDAO {
             System.out.println("Yes");
             acc.setValid(true);
         }
+              //  con.close();
         return acc;
     }
 
     public static void main(String[] args) throws SQLException {
-        EmployeeAccountDAO dao = new EmployeeAccountDAO();
+   
     }
 }

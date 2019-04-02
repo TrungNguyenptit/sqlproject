@@ -19,14 +19,11 @@ public class ConfigurationDAO {
 
     static Connection con = ConnectionManager.getConnection();
     static ResultSet rs = null;
-
-    public static void main(String[] args) throws SQLException {
-        ConfigurationDAO.SetInterestrate("inter01", "vnd", 6.6f);
-    }
-
-    public static void SetInterestrate(String id, String typeOfMoney, float interestrate) throws SQLException {
+    
+    public static float SetInterestrate(String id, String typeOfMoney, float interestrate) throws SQLException {
         String sql = " ";
-
+        if(interestrate>=0)
+        {
         if ("VND".equalsIgnoreCase(typeOfMoney)) {
             sql = "UPDATE interestrate SET vndinterestrate = '" + interestrate + "' WHERE id='" + id + "'";
         } else if ("USD".equalsIgnoreCase(typeOfMoney)) {
@@ -39,5 +36,8 @@ public class ConfigurationDAO {
 
         PreparedStatement ps = con.prepareCall(sql);
         ps.executeUpdate();
+    //    con.close();
+        }
+        return interestrate;
     }
 }

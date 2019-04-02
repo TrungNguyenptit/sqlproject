@@ -15,6 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 /**
  *
@@ -74,13 +76,20 @@ public class ConfigurationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         try {
             String type = request.getParameter("type");
             String typestk = request.getParameter("typestk");
             String typeofmoney = request.getParameter("typeofmoney");
             float interestrate = Float.parseFloat(request.getParameter("interestrate"));
-            System.out.println(typestk +"" +typeofmoney+""+interestrate);
-            ConfigurationDAO.SetInterestrate(typestk, typeofmoney, interestrate);
+            System.out.println(typestk + "" + typeofmoney + "" + interestrate);
+            float f = ConfigurationDAO.SetInterestrate(typestk, typeofmoney, interestrate);
+            //response.getOutputStream().println("<script> alert(\"Cau hinh thanh cong\"); window.location = 'main.jsp';</script>");
+            if (f >= 0) {
+                session.setAttribute("thongbao", "Cau hinh thanh cong");
+            } else {
+                session.setAttribute("thongbao", "Cau hinh khong thanh cong");
+            }
             response.sendRedirect("main.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(ConfigurationServlet.class.getName()).log(Level.SEVERE, null, ex);

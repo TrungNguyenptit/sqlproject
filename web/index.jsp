@@ -15,6 +15,7 @@
 </head>
 
 <body>
+    <p> LOGIN PAGE <p>
     <div class="form-popup" id="loginform">
         <form action="LoginServlet" method="post" class="form-container">
             <img src="images/logo.png" alt="Vietcombank" style="width:80%; margin-bottom: 15px"> <br>

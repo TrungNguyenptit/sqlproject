@@ -12,41 +12,31 @@ package controller;
 import java.sql.*;
 import java.util.*;
 
-
 public class ConnectionManager {
 
-static Connection con;
-static String connectionURL;
-static String url;
+    static Connection con;
+    static String connectionURL;
+    static String url;
 
-public static Connection getConnection()
-{
-
-try
-{
-Class.forName("com.mysql.jdbc.Driver");  
-String url = "jdbc:mysql://localhost:3306/bank";
-String username = "root";
-String password = "";
-try
-{            	
-con = DriverManager.getConnection(url, username, password);
-    System.out.println("Connected!");
+    public static Connection getConnection() {
+        if (con == null) {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                String url = "jdbc:mysql://localhost:3306/bank";
+                String username = "root";
+                String password = "";
+                try {
+                    con = DriverManager.getConnection(url, username, password);
+                    System.out.println("Connected!");
 // assuming your SQL Server's	username is "username"               
 // and password is "password"
-}
-
-catch (SQLException ex)
-{
-ex.printStackTrace();
-}
-}
-
-catch(ClassNotFoundException e)
-{
-System.out.println(e);
-}
-
-return con;
-}
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            } catch (ClassNotFoundException e) {
+                System.out.println(e);
+            }
+        }
+        return con;
+    }
 }
