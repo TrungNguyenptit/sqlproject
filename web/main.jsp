@@ -60,7 +60,6 @@
                  <% if (request.getAttribute("savingList") != null) {%>  style="display: block" <%} %>  >
                 <div>
                     <button onclick="openForm('themstk')">Thêm sổ tiết kiệm </button>
-                    <button onclick="openForm('xoastk')">Xóa sổ tiết kiệm </button>
                     <form action="SavingListServlet" method="get">
                         <span>Loại tiết kiệm: </span>
                         <select name="loaistk">
@@ -222,7 +221,7 @@
                         <option value="LVN">Quý</option>
                         <option value="TDT">Năm</option>
                     </select>
-                    <span>Chọn thời gian cuối: </span> <input id="endDate" type="date" name="endDate"  min='2000-01-01' max='2000-13-13' required>
+                    <span>Chọn thời gian cuối: </span> <input class="endDate" type="date" name="endDate"  min='2000-01-01' max='2000-13-13' required>
                     <button type="submit">Xuất báo cáo</button>
                 </form>
             </div>
@@ -294,7 +293,7 @@
                     <input  type="text"name="idcustomer" placeholder='IDCustomer' required> <br>
                     <input type="text" name="idemployee" placeholder='IDEmployee' required> <br>
                     <input type="text" name="idhusbandry" placeholder='IDHusbandry' required> <br>
-                    <label>Ngày mở sổ: </label><input type="date" name="provisionDate" placeholder='Provision Date' required> <br>
+                    <label>Ngày mở sổ: </label><input type="date" name="provisionDate" placeholder='Provision Date' class="endDate" type="date" name="endDate"  min='2000-01-01' max='2000-13-13' required> <br>
                     <span>Kì hạn: </span>
                     <select name="term" required>
                         <option value="1">1 tháng</option>
@@ -314,15 +313,6 @@
                     <input type="text" name="interestTotal" placeholder='Interest Total' required> <br>
                     <input type="submit" value="Xác nhận">
                     <button class="closeform" onclick="closeForm('themstk')" type="button">X</button>
-                </form>
-            </div>
-            <div class="form-popup" id="xoastk">
-                <form action="DeleteSavingServlet" method="post" class="form-container">
-                    <p id="title">Xóa sổ tiết kiệm</p>
-                    <label> Nhập ID sổ tiết kiệm cần xóa: </label>
-                    <input name="id" placeholder='ID' required> <br>
-                    <input type="submit" value="Xác nhận">
-                    <button class="closeform" onclick="closeForm('xoastk')" type="button">X</button>
                 </form>
             </div>
 
@@ -396,7 +386,7 @@
             }
 
             today = yyyy + '-' + mm + '-' + dd;
-            document.getElementById("endDate").setAttribute("max", today);
+            document.getElementByClass("endDate").setAttribute("max", today);
         </script>
     </body>
 

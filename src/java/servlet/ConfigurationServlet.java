@@ -81,16 +81,21 @@ public class ConfigurationServlet extends HttpServlet {
             String type = request.getParameter("type");
             String typestk = request.getParameter("typestk");
             String typeofmoney = request.getParameter("typeofmoney");
-            float interestrate = Float.parseFloat(request.getParameter("interestrate"));
-            System.out.println(typestk + "" + typeofmoney + "" + interestrate);
-            float f = ConfigurationDAO.SetInterestrate(typestk, typeofmoney, interestrate);
-            //response.getOutputStream().println("<script> alert(\"Cau hinh thanh cong\"); window.location = 'main.jsp';</script>");
-            if (f >= 0) {
-                session.setAttribute("thongbao", "Cau hinh thanh cong");
-            } else {
-                session.setAttribute("thongbao", "Cau hinh khong thanh cong");
+            try {
+                float interestrate = Float.parseFloat(request.getParameter("interestrate"));
+                System.out.println(typestk + "" + typeofmoney + "" + interestrate);
+                float f = ConfigurationDAO.SetInterestrate(typestk, typeofmoney, interestrate);
+                //response.getOutputStream().println("<script> alert(\"Cau hinh thanh cong\"); window.location = 'main.jsp';</script>");
+                if (f >= 0) {
+                    session.setAttribute("thongbao", "Cau hinh thanh cong");
+                } else {
+                    session.setAttribute("thongbao", "Tỉ giá không thế nhỏ hơn không, cho người dùng nhập liệu lại");
+                }
+                response.sendRedirect("main.jsp");
+            } catch (NumberFormatException e) {
+                session.setAttribute("thongbao", "Tí giá không thể bao gồm các chữ cái và các kí tự đặc biết, cho người dùng nhập liệu lại");
+                response.sendRedirect("main.jsp");
             }
-            response.sendRedirect("main.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(ConfigurationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

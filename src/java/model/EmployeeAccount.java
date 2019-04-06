@@ -24,7 +24,7 @@ public class EmployeeAccount implements Serializable {
 
     private float surplus;
 
-    private boolean valid;
+    private boolean valid = false;
 
     public boolean isValid() {
         return valid;
