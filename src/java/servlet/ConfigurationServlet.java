@@ -87,13 +87,13 @@ public class ConfigurationServlet extends HttpServlet {
                 float f = ConfigurationDAO.SetInterestrate(typestk, typeofmoney, interestrate);
                 //response.getOutputStream().println("<script> alert(\"Cau hinh thanh cong\"); window.location = 'main.jsp';</script>");
                 if (f >= 0) {
-                    session.setAttribute("thongbao", "Cau hinh thanh cong");
+                    session.setAttribute("thongbao", "Cấu hình thành công");
                 } else {
                     session.setAttribute("thongbao", "Tỉ giá không thế nhỏ hơn không, cho người dùng nhập liệu lại");
                 }
                 response.sendRedirect("main.jsp");
             } catch (NumberFormatException e) {
-                session.setAttribute("thongbao", "Tí giá không thể bao gồm các chữ cái và các kí tự đặc biết, cho người dùng nhập liệu lại");
+                session.setAttribute("thongbao", "Tỉ giá không thể bao gồm các chữ cái và các kí tự đặc biết, cho người dùng nhập liệu lại");
                 response.sendRedirect("main.jsp");
             }
         } catch (SQLException ex) {

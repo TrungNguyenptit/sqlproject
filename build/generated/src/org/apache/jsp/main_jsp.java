@@ -61,7 +61,8 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <body>\n");
       out.write("\n");
       out.write("        ");
- SavingDAO sdao = new SavingDAO();
+ EmployeeAccount ea = null;
+            SavingDAO sdao = new SavingDAO();
             LoanDAO ldao = new LoanDAO();
             CustomerDAO cdao = new CustomerDAO();
             ProfileDAO pdao = new ProfileDAO();
@@ -75,6 +76,9 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
             Employee e = new Employee();
             Husbandry h = new Husbandry();
             Lend le = new Lend();
+            if (session.getAttribute("currentSessionUser") != null) {
+                ea = (EmployeeAccount) session.getAttribute("currentSessionUser");
+            }
             if (request.getAttribute("savingList") == null) {
                 savingList = sdao.GetSaving("all", "all", "all");
             } else {
@@ -103,7 +107,16 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                <a href=\"#stk\"> <button class=\"tablinks\" onclick=\"openTab(event, 'STK')\">Sổ tiết kiệm</button> </a>\n");
       out.write("                <a href=\"#vl\"> <button class=\"tablinks\" onclick=\"openTab(event, 'VL')\">Vay lãi</button> </a>\n");
       out.write("                <a href=\"#xbc\"> <button class=\"tablinks\" onclick=\"openTab(event, 'BC')\">Xuất báo cáo</button> </a>\n");
+      out.write("                ");
+ if (ea != null) {
+                    System.out.println("Idla"+ea.getId());
+                        if (!ea.getId().equalsIgnoreCase("ada01")) { 
+      out.write("\n");
       out.write("                <a href=\"#ch\"><button class=\"tablinks\" onclick=\"openTab(event, 'CH')\" id=\"moCH\">Cấu hình</button> </a>\n");
+      out.write("                ");
+}
+                    }
+      out.write("\n");
       out.write("            </div>\n");
       out.write("            <!-- Tab content -->\n");
       out.write("            <div id=\"STK\" class=\"tabcontent\" \n");
@@ -114,7 +127,6 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("  >\n");
       out.write("                <div>\n");
       out.write("                    <button onclick=\"openForm('themstk')\">Thêm sổ tiết kiệm </button>\n");
-      out.write("                    <button onclick=\"openForm('xoastk')\">Xóa sổ tiết kiệm </button>\n");
       out.write("                    <form action=\"SavingListServlet\" method=\"get\">\n");
       out.write("                        <span>Loại tiết kiệm: </span>\n");
       out.write("                        <select name=\"loaistk\">\n");
@@ -338,7 +350,7 @@ p = pdao.GetProfile(e.getIdProfile());
       out.write("                        <option value=\"LVN\">Quý</option>\n");
       out.write("                        <option value=\"TDT\">Năm</option>\n");
       out.write("                    </select>\n");
-      out.write("                    <span>Chọn thời gian cuối: </span> <input id=\"endDate\" type=\"date\" name=\"endDate\"  min='2000-01-01' max='2000-13-13' required>\n");
+      out.write("                    <span>Chọn thời gian cuối: </span> <input class=\"endDate\" type=\"date\" name=\"endDate\"  min='2000-01-01' max='2000-13-13' required>\n");
       out.write("                    <button type=\"submit\">Xuất báo cáo</button>\n");
       out.write("                </form>\n");
       out.write("            </div>\n");
@@ -402,7 +414,6 @@ p = pdao.GetProfile(e.getIdProfile());
       out.write("                    <input type=\"submit\" id=\"thaydoi\" value=\"Thay đổi\">\n");
       out.write("                </form>\n");
       out.write("            </div>\n");
-      out.write("\n");
       out.write("            <div class=\"form-popup\" id=\"themstk\">\n");
       out.write("                <form action=\"AddSavingServlet\" method=\"post\" class=\"form-container\">\n");
       out.write("                    <p id=\"title\">Thêm sổ tiết kiệm</p>\n");
@@ -410,7 +421,7 @@ p = pdao.GetProfile(e.getIdProfile());
       out.write("                    <input  type=\"text\"name=\"idcustomer\" placeholder='IDCustomer' required> <br>\n");
       out.write("                    <input type=\"text\" name=\"idemployee\" placeholder='IDEmployee' required> <br>\n");
       out.write("                    <input type=\"text\" name=\"idhusbandry\" placeholder='IDHusbandry' required> <br>\n");
-      out.write("                    <label>Ngày mở sổ: </label><input type=\"date\" name=\"provisionDate\" placeholder='Provision Date' required> <br>\n");
+      out.write("                    <label>Ngày mở sổ: </label><input type=\"date\" name=\"provisionDate\" placeholder='Provision Date' class=\"endDate\" type=\"date\" name=\"endDate\"  min='2000-01-01' max='2000-13-13' required> <br>\n");
       out.write("                    <span>Kì hạn: </span>\n");
       out.write("                    <select name=\"term\" required>\n");
       out.write("                        <option value=\"1\">1 tháng</option>\n");
@@ -430,15 +441,6 @@ p = pdao.GetProfile(e.getIdProfile());
       out.write("                    <input type=\"text\" name=\"interestTotal\" placeholder='Interest Total' required> <br>\n");
       out.write("                    <input type=\"submit\" value=\"Xác nhận\">\n");
       out.write("                    <button class=\"closeform\" onclick=\"closeForm('themstk')\" type=\"button\">X</button>\n");
-      out.write("                </form>\n");
-      out.write("            </div>\n");
-      out.write("            <div class=\"form-popup\" id=\"xoastk\">\n");
-      out.write("                <form action=\"DeleteSavingServlet\" method=\"post\" class=\"form-container\">\n");
-      out.write("                    <p id=\"title\">Xóa sổ tiết kiệm</p>\n");
-      out.write("                    <label> Nhập ID sổ tiết kiệm cần xóa: </label>\n");
-      out.write("                    <input name=\"id\" placeholder='ID' required> <br>\n");
-      out.write("                    <input type=\"submit\" value=\"Xác nhận\">\n");
-      out.write("                    <button class=\"closeform\" onclick=\"closeForm('xoastk')\" type=\"button\">X</button>\n");
       out.write("                </form>\n");
       out.write("            </div>\n");
       out.write("\n");
@@ -512,7 +514,7 @@ p = pdao.GetProfile(e.getIdProfile());
       out.write("            }\n");
       out.write("\n");
       out.write("            today = yyyy + '-' + mm + '-' + dd;\n");
-      out.write("            document.getElementById(\"endDate\").setAttribute(\"max\", today);\n");
+      out.write("            document.getElementByClass(\"endDate\").setAttribute(\"max\", today);\n");
       out.write("        </script>\n");
       out.write("    </body>\n");
       out.write("\n");

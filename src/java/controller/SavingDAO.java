@@ -88,13 +88,10 @@ public class SavingDAO {
         if (s.isMo()) {
             mo = "";
         }
-        try {
             String sql = "INSERT INTO saving VALUE('" + s.getId() + "','" + s.getIdcustomer() + "','" + s.getIdhusbandry() + "','" + s.getIdemployee() + "','" + new java.sql.Date(s.getProvisionDate().getTime()) + "','" + new java.sql.Date(s.getExpirationDate().getTime()) + "','" + s.getInterestTotal() + "','" + s.getDepositTotal() + "','" + s.getTerm() + "','" + s.getTypeofmoney() + "','" + mo + "')";
             PreparedStatement ps = con.prepareCall(sql);
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     //    con.close();
         return s;
     }

@@ -23,7 +23,7 @@
                        oninput="this.setCustomValidity('')" /> <br>
                 <input type="password" class="inf" name="password" type="text" placeholder="Mật khẩu" required  oninvalid="this.setCustomValidity('Yêu cầu điền mật khẩu')"
                        oninput="this.setCustomValidity('')"/> <br>
-                <button class="loginbutton" type="submit">Đăng nhập</button>
+                <button class="loginbutton" type="submit" id="dn">Đăng nhập</button>
             </form>
         </div>
     </body>

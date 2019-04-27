@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
 	        
      else 
      {
-         response.getOutputStream().println("<script> alert(\"Sai thông tin đăng nhập!!\"); window.location = 'index.jsp';</script>");
+         response.getOutputStream().println("<script> alert(\"Sai thông tin!\"); window.location = 'index.jsp';</script>");
      }
 } 
 catch (SQLException e) {

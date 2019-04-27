@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import controller.SavingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -65,6 +66,8 @@ public class AddSavingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
         try {
             String id = request.getParameter("id");
             String idcustomer = request.getParameter("idcustomer");
@@ -73,27 +76,42 @@ public class AddSavingServlet extends HttpServlet {
             String provisionDateStrings = request.getParameter("provisionDate");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date provisionDate = new Date();
-            provisionDate = sdf.parse("2018-01-01");
+            provisionDate = sdf.parse(provisionDateStrings);
             float interestTotal = 0f;
             //interestTotal = Float.parseFloat(request.getParameter("interestTotal"));
             System.out.println(interestTotal);
             float depositTotal = 0f;
             //depositTotal = Float.parseFloat(request.getParameter("depositTotal"));
-            int term = 1;
+            int term = Integer.parseInt(request.getParameter("term"));
             //term = Integer.parseInt(request.getParameter("term"));
             Calendar c = Calendar.getInstance();
             //Setting the date to the given date
             c.setTime(provisionDate);
-            c.add(Calendar.DAY_OF_MONTH, term);
+            c.add(Calendar.DAY_OF_MONTH, term*30);
             Date expirationDate = c.getTime();
             String typeofmoney = request.getParameter("typeofmoney");
             Saving s = new Saving(id, idcustomer, idhusbandry, idemployee, provisionDate, expirationDate, interestTotal, depositTotal, term + " thang", typeofmoney, true);
             SavingDAO.addSaving(s);
-            response.sendRedirect("main.jsp");
+             out.println("<script type=\"text/javascript\">");
+            //out.println("<meta charset=\"UTF-8\">");
+            out.println("alert('Thêm thanh cong');");
+            out.println("location='main.jsp';");
+            out.println("</script>");
         } catch (SQLException ex) {
-            Logger.getLogger(AddSavingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            System.err.println("ERROR HERE");
+            out.println("<script type=\"text/javascript\">");
+            //out.println("<meta charset=\"UTF-8\">");
+            out.println("alert('Thêm that bai');");
+            out.println("location='main.jsp';");
+            out.println("</script>");
         } catch (ParseException ex) {
             Logger.getLogger(AddSavingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            out.println("<script type=\"text/javascript\">");
+            //out.println("<meta charset=\"UTF-8\">");
+            out.println("alert('Thêm that bai');");
+            out.println("location='main.jsp';");
+            out.println("</script>");
         }
     }
 

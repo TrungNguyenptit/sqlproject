@@ -18,7 +18,8 @@
 
     <body>
 
-        <% SavingDAO sdao = new SavingDAO();
+        <% EmployeeAccount ea = null;
+            SavingDAO sdao = new SavingDAO();
             LoanDAO ldao = new LoanDAO();
             CustomerDAO cdao = new CustomerDAO();
             ProfileDAO pdao = new ProfileDAO();
@@ -32,6 +33,9 @@
             Employee e = new Employee();
             Husbandry h = new Husbandry();
             Lend le = new Lend();
+            if (session.getAttribute("currentSessionUser") != null) {
+                ea = (EmployeeAccount) session.getAttribute("currentSessionUser");
+            }
             if (request.getAttribute("savingList") == null) {
                 savingList = sdao.GetSaving("all", "all", "all");
             } else {
@@ -50,16 +54,20 @@
         <div class="menu">
             <!-- Tab -->
             <div class="tab">
-                <a href="#stk"> <button class="tablinks" onclick="openTab(event, 'STK')">Sổ tiết kiệm</button> </a>
+                <a href="#stk"> <button class="tablinks" onclick="openTab(event, 'STK')" id="moSTK">Sổ tiết kiệm</button> </a>
                 <a href="#vl"> <button class="tablinks" onclick="openTab(event, 'VL')">Vay lãi</button> </a>
                 <a href="#xbc"> <button class="tablinks" onclick="openTab(event, 'BC')">Xuất báo cáo</button> </a>
+                <% if (ea != null) {
+                        if (ea.getUsername().equalsIgnoreCase("admin")) { %>
                 <a href="#ch"><button class="tablinks" onclick="openTab(event, 'CH')" id="moCH">Cấu hình</button> </a>
+                <%}
+                    }%>
             </div>
             <!-- Tab content -->
             <div id="STK" class="tabcontent" 
                  <% if (request.getAttribute("savingList") != null) {%>  style="display: block" <%} %>  >
                 <div>
-                    <button onclick="openForm('themstk')">Thêm sổ tiết kiệm </button>
+                    <button onclick="openForm('themstk')" id="btnthemstk">Thêm sổ tiết kiệm </button>
                     <form action="SavingListServlet" method="get">
                         <span>Loại tiết kiệm: </span>
                         <select name="loaistk">
@@ -285,15 +293,26 @@
                     <input type="submit" id="thaydoi" value="Thay đổi">
                 </form>
             </div>
-
             <div class="form-popup" id="themstk">
                 <form action="AddSavingServlet" method="post" class="form-container">
                     <p id="title">Thêm sổ tiết kiệm</p>
                     <input type="text" name="id" placeholder='ID' required> <br>
                     <input  type="text"name="idcustomer" placeholder='IDCustomer' required> <br>
                     <input type="text" name="idemployee" placeholder='IDEmployee' required> <br>
-                    <input type="text" name="idhusbandry" placeholder='IDHusbandry' required> <br>
-                    <label>Ngày mở sổ: </label><input type="date" name="provisionDate" placeholder='Provision Date' class="endDate" type="date" name="endDate"  min='2000-01-01' max='2000-13-13' required> <br>
+                    <span>Loại tiết kiệm: </span>
+                        <select name="idhusbandry">
+                            <option value="hus01">Tích lũy đầu tư</option>
+                            <option value="hus06">AUD ưu đãi</option>
+                            <option value="hus010">Tích lũy cho con</option>
+                            <option value="hus011">Tiền gửi cán bộ công nhân viên</option>
+                            <option value="hus012">Tiền gửi trực tuyến</option>
+                            <option value="hus016">Tích lũy kiểu hối</option>
+                            <option value="hus017">Tiết kiệm tự động</option>
+                            <option value="hus018">Tiết kiệm lĩnh lãi định kỳ</option>
+                            <option value="hus019">Tiết kiệm trả lãi trước</option>
+                            <option value="hus020">Tiết kiệm thường</option>
+                        </select> <br>
+                    <label>Ngày mở sổ: </label><input type="date" name="provisionDate" placeholder='Ngày mở sổ' class="endDate" type="date" name="endDate"  min='2000-01-01' max='2000-13-13' required> <br>
                     <span>Kì hạn: </span>
                     <select name="term" required>
                         <option value="1">1 tháng</option>
@@ -303,14 +322,14 @@
                         <option value="12">12 tháng</option>
                     </select>
                     <span>Loại tiền: </span>
-                    <select name="term" required>
+                    <select name="type" required>
                         <option value="vnd">VND</option>
                         <option value="usd">USD</option>
                         <option value="eur">EUR</option>
                         <option value="aud">AUD</option>
                     </select>
-                    <input type="text" name="depositTotal" placeholder='Deposit Total' required> <br>
-                    <input type="text" name="interestTotal" placeholder='Interest Total' required> <br>
+                    <input type="text" name="depositTotal" placeholder='Tiền gửi' required> <br>
+                    <input type="text" name="interestTotal" placeholder='Tiền lãi' required> <br>
                     <input type="submit" value="Xác nhận">
                     <button class="closeform" onclick="closeForm('themstk')" type="button">X</button>
                 </form>
